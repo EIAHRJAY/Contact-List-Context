@@ -1,81 +1,98 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			agenda: "EIAHRJAY",
+			contacts: []
 		},
-		
-			contactList: [],
-
 
 		actions: {
-			// Use getActions to call a function within a fuction
-			// getContacts: async () => {
-			// 	try {
-			// 	  const response = await fetch(
-			// 		"https://playground.4geeks.com/contact/agendas/EIAHRJAY/contacts"
-			// 	  );
-			// 	  if (response.ok) {
-			// 		const dataContacts = await response.json();
-			// 		setStore({ contactList: dataContacts.contacts });
-			// 		console.log(dataContacts);
-			// 	  }
-			// 	} catch (error) {
-			// 	  console.error(error);
-			// 	}
-			//   },
 
-			  getContacts: async () => {
-				try {
-				  const response = await fetch(
-					"https://playground.4geeks.com/contact/agendas/EIAHRJAY/contacts");
-				  if (response.ok) {
-					const dataContacts = await response.json();
-					console.log(dataContacts.name );
-					console.log("Data received:", dataContacts); // Verifica la respuesta en la consola
-					return dataContacts.contacts; // Retorna los contactos obtenidos
-				  } else {
-					console.error("Error fetching contacts:", response.status);
-					return []; // Retorna un array vacío en caso de error
-				  }
-				} catch (error) {
-				  console.error("Error fetching contacts:", error);
-				  return []; // Retorna un array vacío en caso de error
-				}
-			  },
-			  	
-			  
-			// exampleFunction: () => {
-			// 	getActions().changeColor(0, "green");
-			// },
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
+			// obteniendo informacion de la API
+			getContacts: async () => { 
 				const store = getStore();
+				try {
+					const response = await fetch(
+						`https://playground.4geeks.com/contact/agendas/${store.agenda}/contacts`
+					);
+					if (response.ok) {
+						const dataContacts = await response.json();
+						setStore({ contacts: dataContacts.contacts });
+					} else {
+						console.error("Error fetching contacts:", response.status);
+					}
+				} catch (error) {
+					console.error("Error fetching contacts:", error);
+				}
+			},
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+			
+			//crear contacto
+			createContact: async (contact) => {
+				const store = getStore();
+				try {
+					const response = await fetch(
+						`https://playground.4geeks.com/contact/agendas/${store.agenda}/contact`,
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json"
+							},
+							body: JSON.stringify(contact)
+						}
+					);
+					if (response.ok) {
+						getActions().getContacts();
+					} else {
+						console.error("Error creating contact:", response.status);
+					}
+				} catch (error) {
+					console.error("Error creating contact:", error);
+				}
+			},
 
-				//reset the global store
-				setStore({ demo: demo });
+
+			//Actualizar
+			updateContact: async (id, contact) => {
+				const store = getStore();
+				try {
+					const response = await fetch(
+						`https://playground.4geeks.com/contact/agendas/${store.agenda}/contacts/${id}`,
+						{
+							method: "PUT",
+							headers: {
+								"Content-Type": "application/json"
+							},
+							body: JSON.stringify(contact)
+						}
+					);
+					if (response.ok) {
+						getActions().getContacts();
+					} else {
+						console.error("Error updating contact:", response.status);
+					}
+				} catch (error) {
+					console.error("Error updating contact:", error);
+				}
+			},
+
+			//deleta contacto
+			deleteContact: async (id) => {
+				const store = getStore();
+				try {
+					const response = await fetch(
+						`https://playground.4geeks.com/contact/agendas/${store.agenda}/contacts/${id}`,
+						{
+							method: "DELETE"
+						}
+					);
+					if (response.ok) {
+						getActions().getContacts();
+					} else {
+						console.error("Error deleting contact:", response.status);
+					}
+				} catch (error) {
+					console.error("Error deleting contact:", error);
+				}
 			}
 		}
 	};

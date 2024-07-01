@@ -24,7 +24,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error fetching contacts:", error);
 				}
 			},
-
+			 
 			
 			//crear contacto
 			createContact: async (contact) => {

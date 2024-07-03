@@ -29,9 +29,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			//crear contacto
 			createContact: async (contact) => {
 				const store = getStore();
+				console.log("esta delvolvendo:", contact)
 				try {
 					const response = await fetch(
-						`https://playground.4geeks.com/contact/agendas/${store.agenda}/contact`,
+						`https://playground.4geeks.com/contact/agendas/${store.agenda}/contacts`,
 						{
 							method: "POST",
 							headers: {
@@ -40,11 +41,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 							body: JSON.stringify(contact)
 						}
 					);
-					if (response.ok) {
-						getActions().getContacts();
-					} else {
-						console.error("Error creating contact:", response.status);
-					}
+					// if (response.ok) {
+					// 	getActions().getContacts();
+					// } else {
+					// 	console.error("Error creating contact:", response.status);
+					// }
 				} catch (error) {
 					console.error("Error creating contact:", error);
 				}

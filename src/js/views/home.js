@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import "../../styles/home.css";
 import { Context } from "../store/appContext";
+import {  useNavigate } from "react-router-dom";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { BsGeoAltFill } from "react-icons/bs";
@@ -9,6 +10,8 @@ import { BsEnvelopeAtFill } from "react-icons/bs";
 
 export const Home = () =>{ 
 	const { store, actions } = useContext(Context);
+
+	const navigate = useNavigate();
 
 	const [fullName, setFullName] = useState ("");
 	const [email,setEmail] = useState("");
@@ -19,13 +22,15 @@ export const Home = () =>{
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const newContact = {
-			full_name: fullName,
-			email: email,
+			name: fullName,
 			phone: phone,
-			address: address,
-			agenda_slug: store.agenda
+			email: email,
+			address: address
+			//agenda_slug: store.agenda
 		};
 		actions.createContact(newContact);
+		
+		navigate("/"); // Redirige a la página de demo 
 	};
 
 
@@ -83,4 +88,3 @@ export const Home = () =>{
 }
 
 
-//https://chatgpt.com/share/3d8a98b4-1c4c-4916-bd91-46d053d03789 

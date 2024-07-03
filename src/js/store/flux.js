@@ -41,11 +41,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 							body: JSON.stringify(contact)
 						}
 					);
-					// if (response.ok) {
-					// 	getActions().getContacts();
-					// } else {
-					// 	console.error("Error creating contact:", response.status);
-					// }
+					if (response.ok) {
+						getActions().getContacts();
+					} else {
+						console.error("Error creating contact:", response.status);
+					}
 				} catch (error) {
 					console.error("Error creating contact:", error);
 				}

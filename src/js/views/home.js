@@ -39,7 +39,9 @@ export const Home = () =>{
 	return(
 			<div className="container">
 				<div>
-					<h1 className="text-center mt-5">Add a new contact</h1>
+						<div className=" d-flex justify-content-center">
+							<img src="https://i.pinimg.com/564x/f3/f7/d1/f3f7d1a93907c3892ce16e906929c3ed.jpg" className="rounded-circle mt-3 ms-3" alt="" style={{ width: '100px', height: '100px' }} />
+						</div>
 					<form onSubmit={handleSubmit}>
 					<div className="form-group">
 						<label htmlFor="fullName"><BsFillPersonFill style={{ width: '30px', height: '30px' }}/></label>

@@ -42,7 +42,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					);
 					if (response.ok) {
-						getActions().getContacts();
+						const newContact = await response.json();
+						setStore({ contacts: [...store.contacts, newContact] });
 					} else {
 						console.error("Error creating contact:", response.status);
 					}
@@ -57,7 +58,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				try {
 					const response = await fetch(
-						`https://playground.4geeks.com/contact/agendas/${store.agenda}/contacts/${id}`,
+						`https://playground.4geeks.com/contact/agendas/${store.agenda}/contacts/${id}}`,
 						{
 							method: "PUT",
 							headers: {
@@ -67,14 +68,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					);
 					if (response.ok) {
-						getActions().getContacts();
+						const updatedContact = await response.json();
+						setStore({
+							contacts: store.contacts.map(c =>
+								c.id === updatedContact.id ? updatedContact : c
+							)
+						});
 					} else {
-						console.error("Error updating contact:", response.status);
+						const errorData = await response.json();
+						console.error("Error updating contact:", response.status, errorData);
 					}
 				} catch (error) {
 					console.error("Error updating contact:", error);
 				}
 			},
+			
+			
+			
+				
 
 			//deleta contacto
 			deleteContact: async (id) => {
@@ -87,9 +98,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					);
 					if (response.ok) {
-						getActions().getContacts();
-					} else {
-						console.error("Error deleting contact:", response.status);
+						setStore({ contacts: store.contacts.filter(contact => contact.id !== id) });					} else {
+						// console.error("Error deleting contact:", response.status);
 					}
 				} catch (error) {
 					console.error("Error deleting contact:", error);

@@ -63,7 +63,7 @@ export const Demo = () => {
               </div>
 
               <div>
-                <Link to={`/single/${contact.id}`} state={{ contact }}>
+                <Link to={`/editContact/${contact.id}`} state={{ contact }}>
                   <button className="btn btn-success mr-2 me-2">Edit</button>
                 </Link>
 

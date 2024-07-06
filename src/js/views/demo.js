@@ -18,7 +18,7 @@ export const Demo = () => {
   const handleDeleteClick = (contactId) => {
     setSelectedContact(contactId);
   };
-  console.log("aqui esta el valor de id:", setSelectedContact);
+  //console.log("aqui esta el valor de id:", setSelectedContact);
 
   const handleDeleteConfirm = () => {
     if (selectedContact) {

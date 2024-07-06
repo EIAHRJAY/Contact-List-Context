@@ -32,7 +32,6 @@ const injectContext = (PassedComponent) => {
           }
         } catch (error) {
           console.error("Error checking or creating agenda:", error);
-          // Manejar errores según tu lógica de la aplicación
         }
       };
 

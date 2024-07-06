@@ -106,6 +106,41 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("Error deleting contact:", error);
         }
       },
+
+      // Verificar existencia de la agenda
+      checkAgendaExists: async () => {
+        const store = getStore();
+        try {
+          const response = await fetch(
+            `https://playground.4geeks.com/contact/agendas/${store.agenda}/contacts`
+          );
+          return response.ok;
+        } catch (error) {
+          console.error("Error checking agenda existence:", error);
+          throw error;
+        }
+      },
+
+      // Crear agenda si no existe
+      createAgenda: async () => {
+        const store = getStore();
+        try {
+          const response = await fetch(
+            `https://playground.4geeks.com/contact/agendas/${store.agenda}`,
+            {
+              method: "POST",
+            }
+          );
+          if (response.ok) {
+            console.log("Agenda creada exitosamente.");
+          } else {
+            console.error("Error creating agenda:", response.status);
+          }
+        } catch (error) {
+          console.error("Error creating agenda:", error);
+        }
+      },
+
       // obtener contacto por id
       getContact: (id) => {
         const store = getStore();

@@ -24,8 +24,21 @@ const injectContext = (PassedComponent) => {
     }, initialState);
 
     useEffect(() => {
-      //state.actions.getContacts();
-      /**
+      const checkAndCreateAgenda = async () => {
+        try {
+          const agendaExists = await state.actions.checkAgendaExists();
+          if (!agendaExists) {
+            await state.actions.createAgenda();
+          }
+        } catch (error) {
+          console.error("Error checking or creating agenda:", error);
+          // Manejar errores según tu lógica de la aplicación
+        }
+      };
+
+      checkAndCreateAgenda();
+    }, [state.actions]);
+    /**
 			 * 
 			 * EDIT THIS!
 			 * This function is the equivalent to "window.onLoad", it only runs once on the entire application lifetime
@@ -35,7 +48,6 @@ const injectContext = (PassedComponent) => {
 			  state.actions.loadSomeData(); <---- calling this function from the flux.js actions
 			 *
 			 **/
-    }, []);
 
     // The initial value for the context is not null anymore, but the current state of this component,
     // the context will now have a getStore, getActions and setStore functions available, because they were declared
